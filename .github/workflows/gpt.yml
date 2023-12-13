@@ -105,18 +105,36 @@ jobs:
         with:
           category: "/language:${{ matrix.language }}"
 
-  deploy:
-    name: Deploy
-    runs-on: ubuntu-latest
-    needs:
-      - codacy-security-scan
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
+  # deploy:
+  #   name: Deploy
+  #   runs-on: ubuntu-latest
+  #   needs:
+  #     - codacy-security-scan
+  #   steps:
+  #     - name: Checkout repository
+  #       uses: actions/checkout@v2
 
-      - name: Deploy to Server
-        run: |
+  #     - name: Deploy to Server
+  #       run: |
           # Commands to deploy your application on the server
+
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up SSH Key
+      uses: webfactory/ssh-agent@v0.5.3
+      with:
+        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Deploy to Server
+      run: ssh ${{ secrets.SERVER_USERNAME }}@20.231.41.141 
+           scp -r ./path/to/your/app ${{ secrets.SERVER_USERNAME }}@20.231.41.141:/path/on/server
+
+          
 
   evidence:
     name: Evidence
