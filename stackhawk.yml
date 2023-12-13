@@ -1,20 +1,38 @@
-# -- stackhawk configuration for testes --
+# app:
+#   applicationId: a6f0e4ab-aa4e-48a4-af18-c025e6cdea61
+#   env: Development
+#   host: http://localhost:10010
+# tags:
+#   - name: _STACKHAWK_GIT_COMMIT_SHA
+#     value: ${ENV_VAR_FOR_COMMIT_SHA}
+#   - name: _STACKHAWK_GIT_BRANCH
+#     value: ${ENV_VAR_FOR_BRANCH}
+# hawk:
+#   # Add this if you want pull request comments to specifically call out findings at or above a failure threshold.
+#   failureThreshold: medium
+
 app:
-  # -- An applicationId obtained from the StackHawk platform. --
-  applicationId: 2a02a685-87f8-42da-8bd8-fb955b80643e # (required)
-  # -- The environment for the applicationId defined in the StackHawk platform. --
-  env: Development # (required)
-  # -- The url of your application to scan --
-  host: http://localhost:10010 # (required)
-
-
-# -- Customized Configuration for GraphQL/SOAP/OpenAPI, add here --
-  # Configuration Docs: https://docs.stackhawk.com/hawkscan/configuration/
-
-# -- If Authenticated Scanning is needed, add here --
-  # Authenticated Scanning Docs: https://docs.stackhawk.com/hawkscan/authenticated-scanning.html
-  # Authenticated Scanning Repo: https://github.com/kaakaww/scan-configuration/tree/main/Authentication
-
-# -- Help Section --
-  # Docs: https://docs.stackhawk.com/
-  # Contact Support: support@stackhawk.com
+  host: http://localhost:10010
+  antiCsrfParam: ""
+  applicationId: a6f0e4ab-aa4e-48a4-af18-c025e6cdea61
+  env: Development
+  autoPolicy: false
+  autoInputVectors: false
+hawk:
+  spider:
+    base: true
+    ajax: false
+    maxDurationMinutes: 5
+    ajaxBrowser: FIREFOX_HEADLESS
+  startupTimeoutMinutes: 5
+  failureThreshold: medium
+  scan:
+    maxDurationMinutes: "0"
+    maxRuleDurationMinutes: "0"
+    requestDelayMillis: "0"
+    concurrentRequests: "20"
+    throttlePassiveBacklog: "50"
+    policyName: ""
+    throttleIntervalSeconds: "0"
+    throttleTempRecordMax: "0"
+    throttleTempRecordDeleteQuota: "0"
