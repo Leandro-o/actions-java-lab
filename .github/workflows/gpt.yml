@@ -168,5 +168,7 @@ jobs:
       - name: Show Running Processes
         run: ps aux
 
-     # - name: Send Evidence to Netlify
-      #  run: curl -X POST -d '{"message": "Evidence from GitHub Actions"}' https://seu-site-netlify.com/evidence-endpoint
+      - name: Send Evidence to Netlify
+        run: curl -X POST -d '{"message":"Evidence from GitHub Actions"}'https://bright-lokum-b274f4.netlify.app
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
