@@ -118,21 +118,41 @@ jobs:
   #       run: |
           # Commands to deploy your application on the server
 
+  # deploy:
+  #   runs-on: ubuntu-latest
+
+  #   steps:
+  #   - name: Checkout Repository
+  #     uses: actions/checkout@v2
+
+  #   - name: Set up SSH Key
+  #     uses: webfactory/ssh-agent@v0.5.3
+  #     with:
+  #       ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+  #   - name: Deploy to Server
+  #     run: ssh ${{ secrets.SERVER_USERNAME }}@20.231.41.141 
+  #          scp -r ./path/to/your/app ${{ secrets.SERVER_USERNAME }}@20.231.41.141:/path/on/server
+
+  
   deploy:
+    name: Deploy
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout Repository
-      uses: actions/checkout@v2
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-    - name: Set up SSH Key
-      uses: webfactory/ssh-agent@v0.5.3
-      with:
-        ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      - name: Install Dependencies
+        run: npm install
 
-    - name: Deploy to Server
-      run: ssh ${{ secrets.SERVER_USERNAME }}@20.231.41.141 
-           scp -r ./path/to/your/app ${{ secrets.SERVER_USERNAME }}@20.231.41.141:/path/on/server
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to Netlify
+        run: npx netlify-cli deploy --prod
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
 
           
 
@@ -147,3 +167,6 @@ jobs:
 
       - name: Show Running Processes
         run: ps aux
+
+     # - name: Send Evidence to Netlify
+      #  run: curl -X POST -d '{"message": "Evidence from GitHub Actions"}' https://seu-site-netlify.com/evidence-endpoint
